@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>Ivanov_Clock</title>
+	<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+	<div id="app"></div>
+
+	<script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+	<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+
+	<script type="text/babel">
+
+		class Clock extends React.Component {
+			constructor(props) {
+				super(props);
+				this.state = {
+					time: new Date(),
+					position: "absolute",
+					left: "100px",
+					top: "100px"
+				};
+			}
+
+			updateTime() {
+				this.setState(state => ({
+					time: state.time = new Date(),
+					position: "absolute",
+					left: Math.floor(Math.random() * 640) + 'px',
+					top: Math.floor(Math.random() * 480) + 'px'
+				}));
+			}
+
+			componentDidMount() {
+				console.log("componentDidMount");
+				this.interval = setInterval(() => this.updateTime(), 1000);
+			}
+
+			componentWillUnmount() {
+				console.log("componentWillUnmount");
+				clearInterval(this.interval);
+			}
+
+			render() {
+				let currentStyle = {
+					position: this.state.position,
+					top: this.state.top,
+					left: this.state.left
+				}
+				return (
+					<div class="clock" style={currentStyle}>
+						{this.state.time.toLocaleString()}
+					</div>
+				);
+			}
+		}
+
+		ReactDOM.render(
+			<Clock />,
+			document.getElementById('app')
+		);
+
+	</script>
+</body>
+
+</html>
